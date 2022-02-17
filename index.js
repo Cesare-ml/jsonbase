@@ -8,8 +8,8 @@ function createDatabase(options, callback) {
   });
 }
 
-function dropDatabase(name, callback) {
-  db.dropDatabase(name, function(response) {
+function dropDatabase(name, path, callback) {
+  db.dropDatabase(name, path, function(response) {
   	 callback(response);
   	 return;
   });

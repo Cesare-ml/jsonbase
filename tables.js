@@ -18,6 +18,7 @@ function createTable(options, callback) {
 	let errorList = [];
 	let tableName = options.tableName;
 	let database = options.database;
+	let path = options.path;
 
 	if (! tableName) {
 		let e = {
@@ -38,7 +39,7 @@ function createTable(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'tableName')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(tableName)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -67,7 +68,7 @@ function createTable(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'database')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(database)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -84,7 +85,12 @@ function createTable(options, callback) {
 		});
 		return;
 	} else {
-		let basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		let basePath;
+		if (! path) {
+			basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		} else {
+			basePath = path + utils.getFileSeparator() + database;
+		}
 		fs.exists(basePath, function(exists) {
 		    if (exists) {
 		    	let filePath = basePath + utils.getFileSeparator() + tableName + '.json';
@@ -139,11 +145,11 @@ function createTable(options, callback) {
     	        	    				})
     	        	    			}, 1000);
     	        	    			return;
-    	        	    		}		        	
+    	        	    		}
     				        }
     				    });
 		    	    }
-		    	});			    		       
+		    	});
 		    } else {
 		    	callback({
 		    			status: REQUEST_CODES.FAIL,
@@ -151,7 +157,7 @@ function createTable(options, callback) {
 		    	});
 		    	return;
 		    }
-		});		
+		});
 	}
 }
 
@@ -159,6 +165,7 @@ function dropTable(options, callback) {
 	let errorList = [];
 	let tableName = options.tableName;
 	let database = options.database;
+	let path = options.path;
 
 	if (! tableName) {
 		let e = {
@@ -179,7 +186,7 @@ function dropTable(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'tableName')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(tableName)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -208,7 +215,7 @@ function dropTable(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'database')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(database)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -225,7 +232,12 @@ function dropTable(options, callback) {
 		});
 		return;
 	} else {
-		let basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		let basePath;
+		if (! path) {
+			basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		} else {
+			basePath = path + utils.getFileSeparator() + database;
+		}
 		fs.exists(basePath, function(exists) {
 		    if (exists) {
 		    	let filePath = basePath + utils.getFileSeparator() + tableName;
@@ -240,15 +252,15 @@ function dropTable(options, callback) {
         		       return;
 			        } else {
 			        	let tablePath = basePath + utils.getFileSeparator() + tableName + '.json';
-			        	fs.unlink(tablePath, function (err) {            
-							if (err) {                                                 
+			        	fs.unlink(tablePath, function (err) {
+							if (err) {
 							  callback({
 		          		       		status: REQUEST_CODES.FAIL,
 		          		       		msg: 'error while droping table - ' + tableName,
 		          		       		error: err
 
 	          		       		});
-	          		       		return;                                    
+	          		       		return;
 							} else {
 								let configFilePath = basePath + utils.getFileSeparator() + configFileName;
 								let configFileObj;
@@ -286,11 +298,11 @@ function dropTable(options, callback) {
 		        	    				})
 		        	    			}, 1000);
 		        	    			return;
-		        	    		}								
-							}                                                        
-						});		        	
+		        	    		}
+							}
+						});
 			        }
-			    });		       
+			    });
 		    } else {
 		    	callback({
 		    			status: REQUEST_CODES.FAIL,
@@ -298,7 +310,7 @@ function dropTable(options, callback) {
 		    	});
 		    	return;
 		    }
-		});		
+		});
 	}
 }
 
@@ -308,6 +320,7 @@ function insertRecord(options, callback) {
 	let recordObj = options.record;
 	let tableName = options.tableName;
 	let database = options.database;
+	let path = options.path;
 
 	if (! tableName) {
 		let e = {
@@ -328,7 +341,7 @@ function insertRecord(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'tableName')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(tableName)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -357,7 +370,7 @@ function insertRecord(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'database')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(database)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -382,7 +395,12 @@ function insertRecord(options, callback) {
 		});
 		return;
 	} else {
-		let basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		let basePath;
+		if (! path) {
+			basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		} else {
+			basePath = path + utils.getFileSeparator() + database;
+		}
 		fs.exists(basePath, function(exists) {
 		    if (exists) {
 		    	let filePath = basePath + utils.getFileSeparator() + tableName;
@@ -413,7 +431,7 @@ function insertRecord(options, callback) {
 
 	                		       });
 	                		       return;
-				        	    } else {				        	    	
+				        	    } else {
 	    				            callback({
 	    	        		       		status: REQUEST_CODES.SUCCESS,
 	    	        		       		msg: 'record inserted successfully with the documentId ' + docId
@@ -430,9 +448,9 @@ function insertRecord(options, callback) {
         	    				})
         	    			}, 1000);
         	    			return;
-        	    		}		        																        	
+        	    		}
 			        }
-			    });		       
+			    });
 		    } else {
 		    	callback({
 		    			status: REQUEST_CODES.FAIL,
@@ -440,7 +458,7 @@ function insertRecord(options, callback) {
 		    	});
 		    	return;
 		    }
-		});		
+		});
 	}
 }
 
@@ -450,6 +468,7 @@ function batchInsert(options, callback) {
 	let recordObjs = options.records;
 	let tableName = options.tableName;
 	let database = options.database;
+	let path = options.path;
 
 	if (! tableName) {
 		let e = {
@@ -470,7 +489,7 @@ function batchInsert(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'tableName')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(tableName)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -499,7 +518,7 @@ function batchInsert(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'database')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(database)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -524,7 +543,12 @@ function batchInsert(options, callback) {
 		});
 		return;
 	} else {
-		let basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		let basePath;
+		if (! path) {
+			basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		} else {
+			basePath = path + utils.getFileSeparator() + database;
+		}
 		fs.exists(basePath, function(exists) {
 		    if (exists) {
 		    	let filePath = basePath + utils.getFileSeparator() + tableName;
@@ -557,9 +581,9 @@ function batchInsert(options, callback) {
     	    		        		       });
     	    		        		       return;
 					        	    	}
-				        			});				        						        			
-						        }, 25);			        							        	
-			        		});				        	
+				        			});
+						        }, 25);
+			        		});
 			        	} catch (e) {
         	    			spinner.color = 'yellow';
         	    			spinner.text = 'Waiting for file operation';
@@ -569,9 +593,9 @@ function batchInsert(options, callback) {
         	    				})
         	    			}, 1000);
         	    			return;
-        	    		}		        																        	
+        	    		}
 			        }
-			    });		       
+			    });
 		    } else {
 		    	callback({
 		    			status: REQUEST_CODES.FAIL,
@@ -579,7 +603,7 @@ function batchInsert(options, callback) {
 		    	});
 		    	return;
 		    }
-		});		
+		});
 	}
 }
 
@@ -589,6 +613,7 @@ function getRecordById(options, callback) {
 	let recordId = options.recordId;
 	let tableName = options.tableName;
 	let database = options.database;
+	let path = options.path;
 
 	if (! tableName) {
 		let e = {
@@ -609,7 +634,7 @@ function getRecordById(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'tableName')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(tableName)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -638,7 +663,7 @@ function getRecordById(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'database')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(database)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -663,7 +688,12 @@ function getRecordById(options, callback) {
 		});
 		return;
 	} else {
-		let basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		let basePath;
+		if (! path) {
+			basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		} else {
+			basePath = path + utils.getFileSeparator() + database;
+		}
 		fs.exists(basePath, function(exists) {
 		    if (exists) {
 		    	let filePath = basePath + utils.getFileSeparator() + tableName;
@@ -697,9 +727,9 @@ function getRecordById(options, callback) {
         	    				})
         	    			}, 1000);
         	    			return;
-        	    		}																				        	
+        	    		}
 			        }
-			    });		       
+			    });
 		    } else {
 		    	callback({
 		    			status: REQUEST_CODES.FAIL,
@@ -707,7 +737,7 @@ function getRecordById(options, callback) {
 		    	});
 		    	return;
 		    }
-		});		
+		});
 	}
 }
 
@@ -718,6 +748,7 @@ function getRecordByKeyValue(options, callback) {
 	let value = options['value'];
 	let tableName = options.tableName;
 	let database = options.database;
+	let path = options.path;
 
 	if (! tableName) {
 		let e = {
@@ -738,7 +769,7 @@ function getRecordByKeyValue(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'tableName')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(tableName)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -767,7 +798,7 @@ function getRecordByKeyValue(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'database')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(database)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -799,7 +830,12 @@ function getRecordByKeyValue(options, callback) {
 		});
 		return;
 	} else {
-		let basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		let basePath;
+		if (! path) {
+			basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		} else {
+			basePath = path + utils.getFileSeparator() + database;
+		}
 		fs.exists(basePath, function(exists) {
 		    if (exists) {
 		    	let filePath = basePath + utils.getFileSeparator() + tableName;
@@ -838,7 +874,7 @@ function getRecordByKeyValue(options, callback) {
         	    			return;
         	    		}
 			        }
-			    });		       
+			    });
 		    } else {
 		    	callback({
 		    			status: REQUEST_CODES.FAIL,
@@ -846,7 +882,7 @@ function getRecordByKeyValue(options, callback) {
 		    	});
 		    	return;
 		    }
-		});		
+		});
 	}
 }
 
@@ -858,6 +894,7 @@ function getRecordsBySearch(options, callback) {
 	let flag = options.flag;
 	let tableName = options.tableName;
 	let database = options.database;
+	let path = options.path;
 
 	if (! tableName) {
 		let e = {
@@ -878,7 +915,7 @@ function getRecordsBySearch(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'tableName')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(tableName)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -907,7 +944,7 @@ function getRecordsBySearch(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'database')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(database)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -955,7 +992,12 @@ function getRecordsBySearch(options, callback) {
 		});
 		return;
 	} else {
-		let basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		let basePath;
+		if (! path) {
+			basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		} else {
+			basePath = path + utils.getFileSeparator() + database;
+		}
 		fs.exists(basePath, function(exists) {
 		    if (exists) {
 		    	let filePath = basePath + utils.getFileSeparator() + tableName;
@@ -972,7 +1014,7 @@ function getRecordsBySearch(options, callback) {
 			        	let tablePath = basePath + utils.getFileSeparator() + tableName + '.json';
 						let tableObj;
 						try {
-							tableObj = JSON.parse(fs.readFileSync(tablePath, 'utf8'));							
+							tableObj = JSON.parse(fs.readFileSync(tablePath, 'utf8'));
 							let arrayObj = Object.values(tableObj);
 							let records;
 							switch(value) {
@@ -1003,7 +1045,7 @@ function getRecordsBySearch(options, callback) {
         	    			return;
         	    		}
 			        }
-			    });		       
+			    });
 		    } else {
 		    	callback({
 		    			status: REQUEST_CODES.FAIL,
@@ -1011,7 +1053,7 @@ function getRecordsBySearch(options, callback) {
 		    	});
 		    	return;
 		    }
-		});		
+		});
 	}
 }
 
@@ -1021,6 +1063,7 @@ function getRecordByObject(options, callback) {
 	let obj = options.obj;
 	let tableName = options.tableName;
 	let database = options.database;
+	let path = options.path;
 
 	if (! tableName) {
 		let e = {
@@ -1041,7 +1084,7 @@ function getRecordByObject(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'tableName')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(tableName)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -1070,7 +1113,7 @@ function getRecordByObject(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'database')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(database)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -1095,7 +1138,12 @@ function getRecordByObject(options, callback) {
 		});
 		return;
 	} else {
-		let basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		let basePath;
+		if (! path) {
+			basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		} else {
+			basePath = path + utils.getFileSeparator() + database;
+		}
 		fs.exists(basePath, function(exists) {
 		    if (exists) {
 		    	let filePath = basePath + utils.getFileSeparator() + tableName;
@@ -1133,9 +1181,9 @@ function getRecordByObject(options, callback) {
         	    				})
         	    			}, 1000);
         	    			return;
-        	    		}																				        	
+        	    		}
 			        }
-			    });		       
+			    });
 		    } else {
 		    	callback({
 		    			status: REQUEST_CODES.FAIL,
@@ -1143,7 +1191,7 @@ function getRecordByObject(options, callback) {
 		    	});
 		    	return;
 		    }
-		});		
+		});
 	}
 }
 
@@ -1152,6 +1200,7 @@ function getAllRecords(options, callback) {
 	let errorList = [];
 	let tableName = options.tableName;
 	let database = options.database;
+	let path = options.path;
 
 	if (! tableName) {
 		let e = {
@@ -1172,7 +1221,7 @@ function getAllRecords(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'tableName')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(tableName)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -1201,7 +1250,7 @@ function getAllRecords(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'database')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(database)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -1218,7 +1267,12 @@ function getAllRecords(options, callback) {
 		});
 		return;
 	} else {
-		let basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		let basePath;
+		if (! path) {
+			basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		} else {
+			basePath = path + utils.getFileSeparator() + database;
+		}
 		fs.exists(basePath, function(exists) {
 		    if (exists) {
 		    	let filePath = basePath + utils.getFileSeparator() + tableName;
@@ -1252,9 +1306,9 @@ function getAllRecords(options, callback) {
         	    				})
         	    			}, 1000);
         	    			return;
-        	    		}			        															        	
+        	    		}
 			        }
-			    });		       
+			    });
 		    } else {
 		    	callback({
 		    			status: REQUEST_CODES.FAIL,
@@ -1262,7 +1316,7 @@ function getAllRecords(options, callback) {
 		    	});
 		    	return;
 		    }
-		});		
+		});
 	}
 }
 
@@ -1272,6 +1326,7 @@ function deleteRecordById(options, callback) {
 	let recordId = options.recordId;
 	let tableName = options.tableName;
 	let database = options.database;
+	let path = options.path;
 
 	if (! tableName) {
 		let e = {
@@ -1292,7 +1347,7 @@ function deleteRecordById(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'tableName')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(tableName)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -1321,7 +1376,7 @@ function deleteRecordById(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'database')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(database)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -1346,7 +1401,12 @@ function deleteRecordById(options, callback) {
 		});
 		return;
 	} else {
-		let basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		let basePath;
+		if (! path) {
+			basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		} else {
+			basePath = path + utils.getFileSeparator() + database;
+		}
 		fs.exists(basePath, function(exists) {
 		    if (exists) {
 		    	let filePath = basePath + utils.getFileSeparator() + tableName;
@@ -1391,9 +1451,9 @@ function deleteRecordById(options, callback) {
         	    				})
         	    			}, 1000);
         	    			return;
-        	    		}			        													        	
+        	    		}
 			        }
-			    });		       
+			    });
 		    } else {
 		    	callback({
 		    			status: REQUEST_CODES.FAIL,
@@ -1401,7 +1461,7 @@ function deleteRecordById(options, callback) {
 		    	});
 		    	return;
 		    }
-		});		
+		});
 	}
 }
 
@@ -1412,6 +1472,7 @@ function deleteRecordByKeyValue(options, callback) {
 	let value = options['value'];
 	let tableName = options.tableName;
 	let database = options.database;
+	let path = options.path;
 
 	if (! tableName) {
 		let e = {
@@ -1432,7 +1493,7 @@ function deleteRecordByKeyValue(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'tableName')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(tableName)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -1461,7 +1522,7 @@ function deleteRecordByKeyValue(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'database')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(database)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -1493,7 +1554,12 @@ function deleteRecordByKeyValue(options, callback) {
 		});
 		return;
 	} else {
-		let basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		let basePath;
+		if (! path) {
+			basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		} else {
+			basePath = path + utils.getFileSeparator() + database;
+		}
 		fs.exists(basePath, function(exists) {
 		    if (exists) {
 		    	let filePath = basePath + utils.getFileSeparator() + tableName;
@@ -1519,7 +1585,7 @@ function deleteRecordByKeyValue(options, callback) {
     							records.forEach(function(record) {
     								delete tableObj[Object.keys(tableObj).find(key => tableObj[key] === record) + ''];
     								lastIndex = lastIndex -1;
-    								if (lastIndex <= 0) {   
+    								if (lastIndex <= 0) {
     									fs.writeFile(tablePath, JSON.stringify(tableObj), function(err) {
     										spinner.stop();
     						        	    if(err) {
@@ -1533,7 +1599,7 @@ function deleteRecordByKeyValue(options, callback) {
     						        	    } else {
     			    				            callback({
     			    	        		       		status: REQUEST_CODES.SUCCESS,
-    			    	        		       		msg: 'Deleted records successfully, Total matched records :  ' + records.length 
+    			    	        		       		msg: 'Deleted records successfully, Total matched records :  ' + records.length
     			    	        		       });
     			    	        		       return;
     						        	    }
@@ -1557,9 +1623,9 @@ function deleteRecordByKeyValue(options, callback) {
         	    			}, 1000);
         	    			return;
         	    		}
-			        										            
+
 			        }
-			    });		       
+			    });
 		    } else {
 		    	callback({
 		    			status: REQUEST_CODES.FAIL,
@@ -1567,7 +1633,7 @@ function deleteRecordByKeyValue(options, callback) {
 		    	});
 		    	return;
 		    }
-		});		
+		});
 	}
 }
 
@@ -1578,6 +1644,7 @@ function updateRecordById(options, callback) {
 	let recordObj = options.recordObj;
 	let tableName = options.tableName;
 	let database = options.database;
+	let path = options.path;
 
 	if (! tableName) {
 		let e = {
@@ -1598,7 +1665,7 @@ function updateRecordById(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'tableName')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(tableName)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -1627,7 +1694,7 @@ function updateRecordById(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'database')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(database)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -1660,7 +1727,12 @@ function updateRecordById(options, callback) {
 		});
 		return;
 	} else {
-		let basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		let basePath;
+		if (! path) {
+			basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		} else {
+			basePath = path + utils.getFileSeparator() + database;
+		}
 		fs.exists(basePath, function(exists) {
 		    if (exists) {
 		    	let filePath = basePath + utils.getFileSeparator() + tableName;
@@ -1714,9 +1786,9 @@ function updateRecordById(options, callback) {
         	    				})
         	    			}, 1000);
         	    			return;
-        	    		}																		        	
+        	    		}
 			        }
-			    });		       
+			    });
 		    } else {
 		    	callback({
 		    			status: REQUEST_CODES.FAIL,
@@ -1724,7 +1796,7 @@ function updateRecordById(options, callback) {
 		    	});
 		    	return;
 		    }
-		});		
+		});
 	}
 }
 
@@ -1736,6 +1808,7 @@ function updateRecordByKeyValue(options, callback) {
 	let recordObj = options.recordObj;
 	let tableName = options.tableName;
 	let database = options.database;
+	let path = options.path;
 
 	if (! tableName) {
 		let e = {
@@ -1756,7 +1829,7 @@ function updateRecordByKeyValue(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'tableName')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(tableName)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -1785,7 +1858,7 @@ function updateRecordByKeyValue(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'database')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(database)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -1825,7 +1898,12 @@ function updateRecordByKeyValue(options, callback) {
 		});
 		return;
 	} else {
-		let basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		let basePath;
+		if (! path) {
+			basePath = utils.getRootPath() + utils.getFileSeparator() + database;
+		} else {
+			basePath = path + utils.getFileSeparator() + database;
+		}
 		fs.exists(basePath, function(exists) {
 		    if (exists) {
 		    	let filePath = basePath + utils.getFileSeparator() + tableName;
@@ -1877,7 +1955,7 @@ function updateRecordByKeyValue(options, callback) {
 						    	        		       return;
 									        	    }
 									        	});
-											}											
+											}
 										}
 									});
 								});
@@ -1887,7 +1965,7 @@ function updateRecordByKeyValue(options, callback) {
 		        		       		msg: 'no records found'
 		        		       	});
 		        		       return;
-							}    						
+							}
 	        		    }  catch (e) {
         	    			spinner.color = 'yellow';
 							spinner.text = 'Waiting...';
@@ -1899,7 +1977,7 @@ function updateRecordByKeyValue(options, callback) {
         	    			return;
         	    		}
 			        }
-			    });		       
+			    });
 		    } else {
 		    	callback({
 		    			status: REQUEST_CODES.FAIL,
@@ -1907,7 +1985,7 @@ function updateRecordByKeyValue(options, callback) {
 		    	});
 		    	return;
 		    }
-		});		
+		});
 	}
 }
 

@@ -34,7 +34,7 @@ function createDatabase(options, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'name')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(name)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -53,7 +53,7 @@ function createDatabase(options, callback) {
 	} else {
 		let basePath;
 		if (! path) {
-			basePath = utils.getRootPath() + utils.getFileSeparator() + name;			
+			basePath = utils.getRootPath() + utils.getFileSeparator() + name;
 		} else {
 			basePath = path + utils.getFileSeparator() + name;
 		}
@@ -80,7 +80,7 @@ function createDatabase(options, callback) {
 			        		'name': name,
 			        		'path': basePath,
 			        		'tables': []
-			        	};			        	
+			        	};
 			        	configTemplate['databases'].push(db);
 			        	let data = JSON.stringify(configTemplate);
 			        	fs.writeFileSync(basePath + utils.getFileSeparator() + 'jsonDB-config.json', data);
@@ -92,11 +92,11 @@ function createDatabase(options, callback) {
 			        }
 			    });
 		    }
-		});		
+		});
 	}
 }
 
-function dropDatabase(name, callback) {
+function dropDatabase(name, path, callback) {
 	let errorList = [];
 	if (! name) {
 		let e = {
@@ -117,7 +117,7 @@ function dropDatabase(name, callback) {
 				error: utils.formatText(VALIDATE.VALUE_TOO_BIG, 'name')
 			};
 			errorList.push(e);
-		} 
+		}
 		if (! validate.isValidString(name)) {
 			let e = {
 				status: VALIDATE.FAIL,
@@ -134,10 +134,15 @@ function dropDatabase(name, callback) {
 		});
 		return;
 	} else {
-		let basePath = utils.getRootPath() + utils.getFileSeparator() + name;
+		let basePath;
+		if (! path) {
+			basePath = utils.getRootPath() + utils.getFileSeparator() + name;
+		} else {
+			basePath = path + utils.getFileSeparator() + name;
+		}
 		fs.exists(basePath, function(exists) {
 		    if (exists) {
-		       rimraf(basePath, function () { 
+		       rimraf(basePath, function () {
 		       	callback({
 		       			status: REQUEST_CODES.SUCCESS,
 		       			error: 'Database deleted with the given name ' + name
